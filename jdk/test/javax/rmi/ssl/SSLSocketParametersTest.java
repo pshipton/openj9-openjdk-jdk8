@@ -135,6 +135,7 @@ public class SSLSocketParametersTest implements Serializable {
                 Remote stub = server.runServer();
                 HelloClient client = new HelloClient();
                 client.runClient(stub);
+                System.out.println(server);
                 System.out.println(msg2);
             } catch (Exception e) {
                 System.out.println(msg3 + " Exception: " + e.toString());
@@ -154,6 +155,7 @@ public class SSLSocketParametersTest implements Serializable {
                 Remote stub = server.runServer();
                 HelloClient client = new HelloClient();
                 client.runClient(stub);
+                System.out.println(server);
                 System.out.println(msg2);
             } catch (Exception e) {
                 System.out.println(msg3 + " Exception: " + e.toString());
@@ -174,6 +176,7 @@ public class SSLSocketParametersTest implements Serializable {
                 Remote stub = server.runServer();
                 HelloClient client = new HelloClient();
                 client.runClient(stub);
+                System.out.println(server);
                 System.out.println(msg2);
             } catch (Exception e) {
                 System.out.println(msg3 + " Exception: " + e.toString());
@@ -194,6 +197,7 @@ public class SSLSocketParametersTest implements Serializable {
                 Remote stub = server.runServer();
                 HelloClient client = new HelloClient();
                 client.runClient(stub);
+                System.out.println(server);
                 System.out.println(msg3);
                 System.exit(1);
             } catch (Exception e) {
@@ -213,6 +217,7 @@ public class SSLSocketParametersTest implements Serializable {
                 Remote stub = server.runServer();
                 HelloClient client = new HelloClient();
                 client.runClient(stub);
+                System.out.println(server);
                 System.out.println(msg3);
                 System.exit(1);
             } catch (Exception e) {
@@ -232,6 +237,7 @@ public class SSLSocketParametersTest implements Serializable {
                 Remote stub = server.runServer();
                 HelloClient client = new HelloClient();
                 client.runClient(stub);
+                System.out.println(server);
                 System.out.println(msg3);
                 System.exit(1);
             } catch (Exception e) {
@@ -251,6 +257,7 @@ public class SSLSocketParametersTest implements Serializable {
                 Remote stub = server.runServer();
                 HelloClient client = new HelloClient();
                 client.runClient(stub);
+                System.out.println(server);
                 System.out.println(msg3);
                 System.exit(1);
             } catch (Exception e) {
