@@ -159,6 +159,7 @@ final class SunEntries {
             return;
         }
 
+        map.clear();
         /*
          * SecureRandom
          *
