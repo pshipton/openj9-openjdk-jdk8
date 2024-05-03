@@ -188,8 +188,9 @@ public class Compiler {
             this.fm.setLocation(
                 StandardLocation.CLASS_OUTPUT, Arrays.asList(destDir));
         } catch (IOException e) {
+        	e.printStackTrace();
             throw new RuntimeException(
-                "IOException encountered during compilation");
+                "IOException encountered during compilation " + destDir);
         }
         Boolean result = ct.call();
         if (result == Boolean.FALSE) {
