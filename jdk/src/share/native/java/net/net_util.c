@@ -23,10 +23,40 @@
  * questions.
  */
 
+/*
+ * ===========================================================================
+ * (c) Copyright IBM Corp. 2025, 2025 All Rights Reserved
+ * ===========================================================================
+ */
+
 #include "jni.h"
 #include "jvm.h"
 #include "jni_util.h"
 #include "net_util.h"
+
+/* These definitions required by j9.h are in the OpenJ9 jni.h, but OpenJDK jni.h is used here. */
+struct GCStatus;
+typedef struct GCStatus GCStatus;
+struct JavaVMQuery;
+typedef struct JavaVMQuery JavaVMQuery;
+struct JVMExtensionInterface_;
+typedef const struct JVMExtensionInterface_ *JVMExt;
+
+#define COPY_PROGRESS_INFO_MASK 0
+#if defined(AIX)
+#define AIXPPC
+#define RS6000
+#endif /* defined(AIX) */
+#if defined(MACOSX)
+#define OSX
+#endif /* defined(MACOSX) */
+#if defined(WIN32)
+#define OMR_OS_WINDOWS
+#endif /* defined(WIN32) */
+
+#include "j9.h"
+#include "tracehelp.c"
+#include "ut_jcl_net.c"
 
 int IPv6_supported() ;
 
@@ -53,6 +83,9 @@ JNI_OnLoad(JavaVM *vm, void *reserved)
             return JNI_VERSION_1_2;
         }
     }
+
+    UT_JCL_NET_MODULE_LOADED(J9_UTINTERFACE_FROM_VM((J9JavaVM *)vm));
+
     iCls = (*env)->FindClass(env, "java/lang/Boolean");
     CHECK_NULL_RETURN(iCls, JNI_VERSION_1_2);
     mid = (*env)->GetStaticMethodID(env, iCls, "getBoolean", "(Ljava/lang/String;)Z");
