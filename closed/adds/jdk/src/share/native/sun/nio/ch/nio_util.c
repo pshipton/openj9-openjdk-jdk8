@@ -1,12 +1,14 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ===========================================================================
+ * (c) Copyright IBM Corp. 2025, 2025 All Rights Reserved
+ * ===========================================================================
  *
  * This code is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * published by the Free Software Foundation.
+ *
+ * IBM designates this particular file as subject to the "Classpath" exception
+ * as provided by IBM in the LICENSE file that accompanied this code.
  *
  * This code is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -15,16 +17,8 @@
  * accompanied this code).
  *
  * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 2 along with this work; if not, see <http://www.gnu.org/licenses/>.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
- */
-/*
- * ===========================================================================
- * (c) Copyright IBM Corp. 2024, 2025 All Rights Reserved
  * ===========================================================================
  */
 
@@ -52,26 +46,13 @@ typedef const struct JVMExtensionInterface_ *JVMExt;
 #endif /* defined(WIN32) */
 
 #include "j9.h"
-#include "ut_jcl_java.h"
 #include "tracehelp.c"
-#include "ut_jcl_java.c"
+#include "ut_jcl_nio.c"
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM *vm, void *reserved)
 {
-    jint vm_version = JVM_GetInterfaceVersion();
-    if (vm_version != JVM_INTERFACE_VERSION) {
-        JNIEnv *env;
-        char buf[128];
-        snprintf(buf, sizeof(buf), "JVM interface version mismatch: expecting %d, got %d.",
-                JVM_INTERFACE_VERSION, (int)vm_version);
-        (*vm)->GetEnv(vm, (void **)&env, JNI_VERSION_1_2);
-        if (env) {
-            (*env)->FatalError(env, buf);
-        }
-    }
-
-    UT_JCL_JAVA_MODULE_LOADED(J9_UTINTERFACE_FROM_VM((J9JavaVM *)vm));
+    UT_JCL_NIO_MODULE_LOADED(J9_UTINTERFACE_FROM_VM((J9JavaVM *)vm));
 
     return JNI_VERSION_1_2;
 }
