@@ -22,11 +22,20 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+
+/*
+ * ===========================================================================
+ * (c) Copyright IBM Corp. 2025, 2025 All Rights Reserved
+ * ===========================================================================
+ */
+
 #include <windows.h>
 #include <winsock2.h>
 #include "jni.h"
 #include "net_util.h"
 #include "java_net_DualStackPlainSocketImpl.h"
+
+#include "ut_jcl_net.h"
 
 #define SET_BLOCKING 0
 #define SET_NONBLOCKING 1
@@ -117,6 +126,15 @@ JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_connect0
     if (NET_InetAddressToSockaddr(env, iaObj, port, (struct sockaddr *)&sa,
                                  &sa_len, JNI_TRUE) != 0) {
       return -1;
+    }
+
+    if (AF_INET == sa.him4.sin_family) {
+        char buf[INET_ADDRSTRLEN];
+        Trc_PlainSocketImpl_socketConnect4(fd, inet_ntop(AF_INET, &sa.him4.sin_addr, buf, sizeof(buf)), port, len);
+    } else if (AF_INET6 == sa.him6.sin_family6) {
+        char buf[INET6_ADDRSTRLEN];
+        struct SOCKADDR_IN6 *sa6 = &sa.him6;
+        Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &sa6->sin6_addr, buf, sizeof(buf)), port, ntohs(sa6->sin6_scope_id), len);
     }
 
     rv = connect(fd, (struct sockaddr *)&sa, sa_len);

@@ -23,6 +23,12 @@
  * questions.
  */
 
+/*
+ * ===========================================================================
+ * (c) Copyright IBM Corp. 2025, 2025 All Rights Reserved
+ * ===========================================================================
+ */
+
 #include <windows.h>
 #include <winsock2.h>
 #include <ctype.h>
@@ -40,6 +46,8 @@
 #include "jvm.h"
 #include "net_util.h"
 #include "jni_util.h"
+
+#include "ut_jcl_net.h"
 
 /************************************************************************
  * TwoStacksPlainSocketImpl
@@ -257,6 +265,15 @@ Java_java_net_TwoStacksPlainSocketImpl_socketConnect(JNIEnv *env, jobject this,
         }
     }
     (*env)->SetObjectField(env, this, psi_fd1ID, NULL);
+
+    if (AF_INET == family) {
+        char buf[INET_ADDRSTRLEN];
+        Trc_PlainSocketImpl_socketConnect4(fd, inet_ntop(AF_INET, &him.him4.sin_addr, buf, sizeof(buf)), port, len);
+    } else if (AF_INET6 == family) {
+        char buf[INET6_ADDRSTRLEN];
+        struct SOCKADDR_IN6 *sa = &him.him6;
+        Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &sa->sin6_addr, buf, sizeof(buf)), port, ntohs(sa->sin6_scope_id), len);
+    }
 
     if (timeout <= 0) {
         connect_res = connect(fd, (struct sockaddr *) &him, SOCKETADDRESS_LEN(&him));

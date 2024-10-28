@@ -23,6 +23,12 @@
  * questions.
  */
 
+/*
+ * ===========================================================================
+ * (c) Copyright IBM Corp. 2025, 2025 All Rights Reserved
+ * ===========================================================================
+ */
+
 #if defined(__linux__)
 #define _FILE_OFFSET_BITS 64
 #endif
@@ -42,6 +48,8 @@
 #if defined(__linux__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
 #include <sys/ioctl.h>
 #endif
+
+#include "ut_jcl_io.h"
 
 #ifdef MACOSX
 
@@ -78,6 +86,7 @@ jstring newStringPlatform(JNIEnv *env, const char* str)
 FD
 handleOpen(const char *path, int oflag, int mode) {
     FD fd;
+    Trc_io_handleOpen_Entry(path, oflag, mode, 0, 0);
     RESTARTABLE(open64(path, oflag, mode), fd);
     if (fd != -1) {
         struct stat64 buf64;
@@ -93,6 +102,11 @@ handleOpen(const char *path, int oflag, int mode) {
             close(fd);
             fd = -1;
         }
+    }
+    if (-1 == fd) {
+        Trc_io_handleOpen_Exit1(errno);
+    } else {
+        Trc_io_handleOpen_Exit2((jlong)fd);
     }
     return fd;
 }
@@ -134,6 +148,8 @@ fileClose(JNIEnv *env, jobject this, jfieldID fid)
      */
     SET_FD(this, -1, fid);
 
+    Trc_io_fileDescriptorClose_Entry((jlong)fd);
+
     /*
      * Don't close file descriptors 0, 1, or 2. If we close these stream
      * then a subsequent file open or socket will use them. Instead we
@@ -148,8 +164,12 @@ fileClose(JNIEnv *env, jobject this, jfieldID fid)
             dup2(devnull, fd);
             close(devnull);
         }
+        Trc_io_fileDescriptorClose_Exit2();
     } else if (close(fd) == -1) {
+        Trc_io_fileDescriptorClose_Exit1(errno);
         JNU_ThrowIOExceptionWithLastError(env, "close failed");
+    } else {
+        Trc_io_fileDescriptorClose_Exit2();
     }
 }
 
