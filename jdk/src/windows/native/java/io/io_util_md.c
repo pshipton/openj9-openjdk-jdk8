@@ -261,7 +261,7 @@ winFileHandleOpen(JNIEnv *env, jstring path, int flags)
         return -1;
     }
 
-    if (TrcEnabled_Trc_io_handleOpen_Entry) {
+    if (TrcEnabled_Trc_io_handleOpen) {
 	    int length = WideCharToMultiByte(CP_UTF8, 0, pathbuf, -1, NULL, 0, NULL, NULL);
 	    char *pathStr = malloc(length);
 	    if (NULL != pathStr) {
