@@ -133,8 +133,7 @@ JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_connect0
         Trc_PlainSocketImpl_socketConnect4(fd, inet_ntop(AF_INET, &sa.him4.sin_addr, buf, sizeof(buf)), port, sa_len);
     } else if (AF_INET6 == sa.him6.sin6_family) {
         char buf[INET6_ADDRSTRLEN];
-        struct SOCKADDR_IN6 *sa6 = &sa.him6;
-        Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &sa6->sin6_addr, buf, sizeof(buf)), port, ntohs(sa6->sin6_scope_id), sa_len);
+        Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &sa.him6.sin6_addr, buf, sizeof(buf)), port, ntohs(sa.him6.sin6_scope_id), sa_len);
     }
 
     rv = connect(fd, (struct sockaddr *)&sa, sa_len);

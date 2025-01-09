@@ -216,12 +216,12 @@ Java_sun_nio_ch_Net_connect0(JNIEnv *env, jclass clazz, jboolean preferIPv6, job
         return IOS_THROWN;
     }
 
-    if (AF_INET == sa.sa4.sin_family) {
+    if (AF_INET == sa.him4.sin_family) {
         char buf[INET_ADDRSTRLEN];
-        Trc_nio_ch_Net_connect4((jlong)s, inet_ntop(AF_INET, &sa.sa4.sin_addr, buf, sizeof(buf)), port, sa_len);
-    } else if (AF_INET6 == sa.sa6.sin6_family) {
+        Trc_nio_ch_Net_connect4((jlong)s, inet_ntop(AF_INET, &sa.him4.sin_addr, buf, sizeof(buf)), port, sa_len);
+    } else if (AF_INET6 == sa.him6.sin6_family) {
         char buf[INET6_ADDRSTRLEN];
-        Trc_nio_ch_Net_connect6((jlong)s, inet_ntop(AF_INET6, &sa.sa6.sin6_addr, buf, sizeof(buf)), port, ntohl(sa.sa6.sin6_scope_id), sa_len);
+        Trc_nio_ch_Net_connect6((jlong)s, inet_ntop(AF_INET6, &sa.him6.sin6_addr, buf, sizeof(buf)), port, ntohl(sa.him6.sin6_scope_id), sa_len);
     }
 
     rv = connect(s, (struct sockaddr *)&sa, sa_len);
