@@ -361,7 +361,7 @@ Java_sun_nio_ch_Net_connect0(JNIEnv *env, jclass clazz, jboolean preferIPv6,
         Trc_nio_ch_Net_connect4((jlong)fd, inet_ntop(AF_INET, &sa.him4.sin_addr, buf, sizeof(buf)), port, sa_len);
     } else if (AF_INET6 == sa.him6.sin6_family) {
         char buf[INET6_ADDRSTRLEN];
-        Trc_nio_ch_Net_connect6((jlong)fd, inet_ntop(AF_INET6, &sa.him6.sin6_addr, buf, sizeof(buf)), port, ntohs(sa.him6.sin6_scope_id), sa_len);
+        Trc_nio_ch_Net_connect6((jlong)fd, inet_ntop(AF_INET6, &sa.him6.sin6_addr, buf, sizeof(buf)), port, ntohl(sa.him6.sin6_scope_id), sa_len);
     }
 
     rv = connect(fd, (struct sockaddr *)&sa, sa_len);
