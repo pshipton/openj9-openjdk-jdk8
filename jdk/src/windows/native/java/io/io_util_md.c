@@ -267,7 +267,7 @@ winFileHandleOpen(JNIEnv *env, jstring path, int flags)
 	    if (NULL != pathStr) {
 	        WideCharToMultiByte(CP_UTF8, 0, pathbuf, -1, pathStr, length, NULL, NULL);
 	    }
-	    Trc_io_handleOpen_Entry(pathStr, access, sharing, disposition, flagsAndAttributes);
+	    Trc_io_handleOpen(pathStr, access, sharing, disposition, flagsAndAttributes);
 	    free(pathStr);
 	}
 
@@ -557,7 +557,7 @@ handleClose(JNIEnv *env, jobject this, jfieldID fid)
         return 0;
     }
 
-    Trc_io_fileDescriptorClose_Entry((jlong)fd);
+    Trc_io_fileDescriptorClose((jlong)fd);
 
     /* Set the fd to -1 before closing it so that the timing window
      * of other threads using the wrong fd (closed but recycled fd,
