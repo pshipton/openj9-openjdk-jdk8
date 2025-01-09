@@ -148,7 +148,7 @@ fileClose(JNIEnv *env, jobject this, jfieldID fid)
      */
     SET_FD(this, -1, fid);
 
-    Trc_io_fileDescriptorClose_Entry((jlong)fd);
+    Trc_io_fileDescriptorClose((jlong)fd);
 
     /*
      * Don't close file descriptors 0, 1, or 2. If we close these stream
