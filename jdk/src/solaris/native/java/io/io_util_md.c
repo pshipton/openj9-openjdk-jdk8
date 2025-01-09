@@ -86,7 +86,7 @@ jstring newStringPlatform(JNIEnv *env, const char* str)
 FD
 handleOpen(const char *path, int oflag, int mode) {
     FD fd;
-    Trc_io_handleOpen_Entry(path, oflag, mode, 0, 0);
+    Trc_io_handleOpen(path, oflag, mode, 0, 0);
     RESTARTABLE(open64(path, oflag, mode), fd);
     if (fd != -1) {
         struct stat64 buf64;
