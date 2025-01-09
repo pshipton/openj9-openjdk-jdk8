@@ -41,7 +41,7 @@ endif
 
 LIBNET_CFLAGS := $(foreach dir, $(LIBNET_SRC_DIRS), -I$(dir))
 
-BUILD_LIBNET_DualStackPlainSocketImp.c_CFLAGS := \
+BUILD_LIBNET_DualStackPlainSocketImpl.c_CFLAGS := \
     -I$(OPENJ9OMR_TOPDIR)/include_core \
     -I$(OUTPUT_ROOT)/vm/runtime/jcl
 BUILD_LIBNET_linux_close.c_CFLAGS := \
