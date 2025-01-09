@@ -377,8 +377,7 @@ Java_java_net_PlainSocketImpl_socketConnect(JNIEnv *env, jobject this,
             Trc_PlainSocketImpl_socketConnect4(fd, inet_ntop(AF_INET, &him.him4.sin_addr, buf, sizeof(buf)), port, len);
         } else if (AF_INET6 == him.him6.sin6_family) {
             char buf[INET6_ADDRSTRLEN];
-            struct sockaddr_in6 *sa = &him.him6;
-            Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &sa->sin6_addr, buf, sizeof(buf)), port, ntohs(sa->sin6_scope_id), len);
+            Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &him.him6.sin6_addr, buf, sizeof(buf)), port, ntohl(him.him6.sin6_scope_id), len);
         }
 
         /* no need to use NET_Connect as non-blocking */

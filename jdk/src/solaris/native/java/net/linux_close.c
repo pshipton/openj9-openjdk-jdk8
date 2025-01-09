@@ -419,7 +419,7 @@ int NET_Connect(int s, struct sockaddr *addr, int addrlen) {
     } else if (AF_INET6 == addr->sa_family) {
         char buf[INET6_ADDRSTRLEN];
         struct sockaddr_in6 *sa = (struct sockaddr_in6 *)addr;
-        Trc_NET_Connect6(s, inet_ntop(AF_INET6, &sa->sin6_addr, buf, sizeof(buf)), ntohs(sa->sin6_port), ntohs(sa->sin6_scope_id), addrlen);
+        Trc_NET_Connect6(s, inet_ntop(AF_INET6, &sa->sin6_addr, buf, sizeof(buf)), ntohs(sa->sin6_port), ntohl(sa->sin6_scope_id), addrlen);
     }
     BLOCKING_IO_RETURN_INT( s, connect(s, addr, addrlen) );
 }
