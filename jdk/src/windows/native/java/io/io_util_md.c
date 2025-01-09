@@ -267,7 +267,7 @@ winFileHandleOpen(JNIEnv *env, jstring path, int flags)
 	    if (NULL != pathStr) {
 	        WideCharToMultiByte(CP_UTF8, 0, pathbuf, -1, pathStr, length, NULL, NULL);
 	    }
-	    Trc_io_CreateFileW_Entry(pathStr, access, sharing, disposition, flagsAndAttributes);
+	    Trc_io_handleOpen_Entry(pathStr, access, sharing, disposition, flagsAndAttributes);
 	    free(pathStr);
 	}
 
