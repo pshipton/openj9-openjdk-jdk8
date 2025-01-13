@@ -254,6 +254,7 @@ winFileHandleOpen(JNIEnv *env, jstring path, int flags)
         FILE_ATTRIBUTE_NORMAL;
     const DWORD flagsAndAttributes = maybeWriteThrough | maybeDeleteOnClose;
     HANDLE h = NULL;
+    char *pathStr = NULL;
 
     WCHAR *pathbuf = pathToNTPath(env, path, JNI_TRUE);
     if (pathbuf == NULL) {
@@ -263,12 +264,10 @@ winFileHandleOpen(JNIEnv *env, jstring path, int flags)
 
     if (TrcEnabled_Trc_io_handleOpen) {
 	    int length = WideCharToMultiByte(CP_UTF8, 0, pathbuf, -1, NULL, 0, NULL, NULL);
-	    char *pathStr = malloc(length);
+	    pathStr = malloc(length);
 	    if (NULL != pathStr) {
 	        WideCharToMultiByte(CP_UTF8, 0, pathbuf, -1, pathStr, length, NULL, NULL);
 	    }
-	    Trc_io_handleOpen(pathStr, access, sharing, disposition, flagsAndAttributes);
-	    free(pathStr);
 	}
 
     h = CreateFileW(
@@ -282,11 +281,13 @@ winFileHandleOpen(JNIEnv *env, jstring path, int flags)
     free(pathbuf);
 
     if (h == INVALID_HANDLE_VALUE) {
-        Trc_io_handleOpen_Exit1(GetLastError());
+        Trc_io_handleOpen_err(pathStr, access, sharing, disposition, flagsAndAttributes, GetLastError());
+        free(pathStr);
         throwFileNotFoundException(env, path);
         return -1;
     }
-    Trc_io_handleOpen_Exit2((jlong)h);
+    Trc_io_handleOpen(pathStr, access, sharing, disposition, flagsAndAttributes, (jlong)h);
+    free(pathStr);
     return (jlong) h;
 }
 
@@ -557,8 +558,6 @@ handleClose(JNIEnv *env, jobject this, jfieldID fid)
         return 0;
     }
 
-    Trc_io_fileDescriptorClose((jlong)fd);
-
     /* Set the fd to -1 before closing it so that the timing window
      * of other threads using the wrong fd (closed but recycled fd,
      * that gets re-opened with some other filename) is reduced.
@@ -568,10 +567,10 @@ handleClose(JNIEnv *env, jobject this, jfieldID fid)
     SET_FD(this, -1, fid);
 
     if (CloseHandle(h) == 0) { /* Returns zero on failure */
-        Trc_io_fileDescriptorClose_Exit1(GetLastError());
+        Trc_io_fileDescriptorClose_err((jlong)fd, GetLastError());
         JNU_ThrowIOExceptionWithLastError(env, "close failed");
     } else {
-        Trc_io_fileDescriptorClose_Exit2();
+        Trc_io_fileDescriptorClose((jlong)fd);
     }
     return 0;
 }

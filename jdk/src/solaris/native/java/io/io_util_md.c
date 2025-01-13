@@ -86,7 +86,6 @@ jstring newStringPlatform(JNIEnv *env, const char* str)
 FD
 handleOpen(const char *path, int oflag, int mode) {
     FD fd;
-    Trc_io_handleOpen(path, oflag, mode, 0, 0);
     RESTARTABLE(open64(path, oflag, mode), fd);
     if (fd != -1) {
         struct stat64 buf64;
@@ -104,9 +103,9 @@ handleOpen(const char *path, int oflag, int mode) {
         }
     }
     if (-1 == fd) {
-        Trc_io_handleOpen_Exit1(errno);
+        Trc_io_handleOpen_err(path, oflag, mode, 0, 0, errno);
     } else {
-        Trc_io_handleOpen_Exit2((jlong)fd);
+        Trc_io_handleOpen(path, oflag, mode, 0, 0), (jlong)fd);
     }
     return fd;
 }
@@ -148,9 +147,7 @@ fileClose(JNIEnv *env, jobject this, jfieldID fid)
      */
     SET_FD(this, -1, fid);
 
-    Trc_io_fileDescriptorClose((jlong)fd);
-
-    /*
+F    /*
      * Don't close file descriptors 0, 1, or 2. If we close these stream
      * then a subsequent file open or socket will use them. Instead we
      * just redirect these file descriptors to /dev/null.
@@ -164,12 +161,12 @@ fileClose(JNIEnv *env, jobject this, jfieldID fid)
             dup2(devnull, fd);
             close(devnull);
         }
-        Trc_io_fileDescriptorClose_Exit2();
+        Trc_io_fileDescriptorClose((jlong)fd);
     } else if (close(fd) == -1) {
-        Trc_io_fileDescriptorClose_Exit1(errno);
+        Trc_io_fileDescriptorClose_err((jlong)fd, errno);
         JNU_ThrowIOExceptionWithLastError(env, "close failed");
     } else {
-        Trc_io_fileDescriptorClose_Exit2();
+        Trc_io_fileDescriptorClose((jlong)fd);
     }
 }
 
