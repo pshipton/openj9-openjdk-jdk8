@@ -292,6 +292,7 @@ Java_sun_nio_ch_FileDispatcherImpl_release0(JNIEnv *env, jobject this,
 
 static void closeFileDescriptor(JNIEnv *env, int fd) {
     if (fd != -1) {
+        Trc_nio_ch_FileDispatcherImpl_close(fd);
         int result = close(fd);
         if (result < 0)
             JNU_ThrowIOExceptionWithLastError(env, "Close failed");
@@ -302,7 +303,6 @@ JNIEXPORT void JNICALL
 Java_sun_nio_ch_FileDispatcherImpl_close0(JNIEnv *env, jclass clazz, jobject fdo)
 {
     jint fd = fdval(env, fdo);
-    Trc_nio_ch_FileDispatcherImpl_close(fd);
     closeFileDescriptor(env, fd);
 }
 
