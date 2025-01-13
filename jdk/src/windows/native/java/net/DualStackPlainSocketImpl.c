@@ -130,10 +130,10 @@ JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_connect0
 
     if (AF_INET == sa.him4.sin_family) {
         char buf[INET_ADDRSTRLEN];
-        Trc_PlainSocketImpl_socketConnect4(fd, inet_ntop(AF_INET, &sa.him4.sin_addr, buf, sizeof(buf)), port, sa_len);
+        Trc_PlainSocketImpl_socketConnect4("DualStack ", fd, inet_ntop(AF_INET, &sa.him4.sin_addr, buf, sizeof(buf)), port, sa_len);
     } else if (AF_INET6 == sa.him6.sin6_family) {
         char buf[INET6_ADDRSTRLEN];
-        Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &sa.him6.sin6_addr, buf, sizeof(buf)), port, ntohl(sa.him6.sin6_scope_id), sa_len);
+        Trc_PlainSocketImpl_socketConnect6("DualStack ", fd, inet_ntop(AF_INET6, &sa.him6.sin6_addr, buf, sizeof(buf)), port, ntohl(sa.him6.sin6_scope_id), sa_len);
     }
 
     rv = connect(fd, (struct sockaddr *)&sa, sa_len);
@@ -366,6 +366,7 @@ JNIEXPORT jint JNICALL Java_java_net_DualStackPlainSocketImpl_available0
  */
 JNIEXPORT void JNICALL Java_java_net_DualStackPlainSocketImpl_close0
   (JNIEnv *env, jclass clazz, jint fd) {
+     Trc_PlainSocketImpl_socketClose("DualStack ", fd);
      NET_SocketClose(fd);
 }
 

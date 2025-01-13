@@ -374,10 +374,10 @@ Java_java_net_PlainSocketImpl_socketConnect(JNIEnv *env, jobject this,
         
         if (AF_INET == him.him4.sin_family) {
             char buf[INET_ADDRSTRLEN];
-            Trc_PlainSocketImpl_socketConnect4(fd, inet_ntop(AF_INET, &him.him4.sin_addr, buf, sizeof(buf)), port, len);
+            Trc_PlainSocketImpl_socketConnect4("", fd, inet_ntop(AF_INET, &him.him4.sin_addr, buf, sizeof(buf)), port, len);
         } else if (AF_INET6 == him.him6.sin6_family) {
             char buf[INET6_ADDRSTRLEN];
-            Trc_PlainSocketImpl_socketConnect6(fd, inet_ntop(AF_INET6, &him.him6.sin6_addr, buf, sizeof(buf)), port, ntohl(him.him6.sin6_scope_id), len);
+            Trc_PlainSocketImpl_socketConnect6("", fd, inet_ntop(AF_INET6, &him.him6.sin6_addr, buf, sizeof(buf)), port, ntohl(him.him6.sin6_scope_id), len);
         }
 
         /* no need to use NET_Connect as non-blocking */
@@ -865,6 +865,7 @@ Java_java_net_PlainSocketImpl_socketClose0(JNIEnv *env, jobject this,
         fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
     }
     if (fd != -1) {
+        Trc_PlainSocketImpl_socketClose("", fd);
         if (useDeferredClose && marker_fd >= 0) {
             NET_Dup2(marker_fd, fd);
         } else {
