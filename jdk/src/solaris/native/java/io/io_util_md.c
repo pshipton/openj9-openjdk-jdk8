@@ -105,7 +105,7 @@ handleOpen(const char *path, int oflag, int mode) {
     if (-1 == fd) {
         Trc_io_handleOpen_err(path, oflag, mode, 0, 0, errno);
     } else {
-        Trc_io_handleOpen(path, oflag, mode, 0, 0), (jlong)fd);
+        Trc_io_handleOpen(path, oflag, mode, 0, 0, (jlong)fd);
     }
     return fd;
 }
@@ -147,7 +147,7 @@ fileClose(JNIEnv *env, jobject this, jfieldID fid)
      */
     SET_FD(this, -1, fid);
 
-F    /*
+    /*
      * Don't close file descriptors 0, 1, or 2. If we close these stream
      * then a subsequent file open or socket will use them. Instead we
      * just redirect these file descriptors to /dev/null.

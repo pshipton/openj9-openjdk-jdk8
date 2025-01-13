@@ -163,6 +163,9 @@ BUILD_LIBJAVA_check_version.c_CFLAGS := \
 BUILD_LIBJAVA_io_util_md.c_CFLAGS := \
     -I$(OPENJ9OMR_TOPDIR)/include_core \
     -I$(OUTPUT_ROOT)/vm/runtime/jcl
+BUILD_LIBJAVA_UnixFileSystem_md.c_CFLAGS := \
+    -I$(OPENJ9OMR_TOPDIR)/include_core \
+    -I$(OUTPUT_ROOT)/vm/runtime/jcl
 
 ifeq ($(OPENJDK_TARGET_OS), windows)
   LIBJAVA_SRC_DIRS += $(JDK_TOPDIR)/src/$(OPENJDK_TARGET_OS_API_DIR)/native/sun/util/locale/provider

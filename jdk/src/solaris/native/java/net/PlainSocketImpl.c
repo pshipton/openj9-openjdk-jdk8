@@ -865,7 +865,6 @@ Java_java_net_PlainSocketImpl_socketClose0(JNIEnv *env, jobject this,
         fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
     }
     if (fd != -1) {
-        Trc_PlainSocketImpl_socketClose("", fd);
         if (useDeferredClose && marker_fd >= 0) {
             NET_Dup2(marker_fd, fd);
         } else {

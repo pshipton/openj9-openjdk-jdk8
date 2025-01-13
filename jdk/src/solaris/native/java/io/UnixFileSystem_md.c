@@ -23,6 +23,12 @@
  * questions.
  */
 
+/*
+ * ===========================================================================
+ * (c) Copyright IBM Corp. 2025, 2025 All Rights Reserved
+ * ===========================================================================
+ */
+
 #include <assert.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -48,6 +54,8 @@
 #define stat64 stat
 #define statvfs64 statvfs
 #endif
+
+#include "ut_jcl_io.h"
 
 /* -- Field IDs -- */
 
@@ -255,6 +263,7 @@ Java_java_io_UnixFileSystem_createFileExclusively(JNIEnv *env, jclass cls,
                 if (errno != EEXIST)
                     JNU_ThrowIOExceptionWithLastError(env, path);
             } else {
+                Trc_io_UnixFileSystem_createFileExclusively_close(fd);
                 if (close(fd) == -1)
                     JNU_ThrowIOExceptionWithLastError(env, path);
                 rv = JNI_TRUE;
