@@ -53,6 +53,9 @@ BUILD_LIBNIO_nio_util.c_CFLAGS := \
     -I$(OPENJ9_TOPDIR)/runtime/jcl \
     -I$(OPENJ9_TOPDIR)/runtime/util \
     -I$(OUTPUT_ROOT)/vm/runtime/jcl
+BUILD_LIBNIO_SocketDispatcher.c_CFLAGS := \
+    -I$(OPENJ9OMR_TOPDIR)/include_core \
+    -I$(OUTPUT_ROOT)/vm/runtime/jcl
 
 BUILD_LIBNIO_FILES := \
     DatagramChannelImpl.c \
