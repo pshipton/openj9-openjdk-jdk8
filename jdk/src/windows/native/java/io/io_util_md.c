@@ -47,7 +47,7 @@
 #include <limits.h>
 #include <wincon.h>
 
-#include "ut_jcl_io.h"
+#include "ut_jcl_java.h"
 
 static DWORD MAX_INPUT_EVENTS = 2000;
 
