@@ -40,9 +40,9 @@ struct JVMExtensionInterface_;
 typedef const struct JVMExtensionInterface_ *JVMExt;
 
 #define COPY_PROGRESS_INFO_MASK 0
-#ifdef WIN32
+#if defined(WIN32)
 #define OMR_OS_WINDOWS
-#endif
+#endif /* defined(WIN32) */
 
 #include "j9.h"
 #include "ut_jcl_java.h"
