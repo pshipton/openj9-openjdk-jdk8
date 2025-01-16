@@ -43,6 +43,9 @@ typedef const struct JVMExtensionInterface_ *JVMExt;
 #if defined(WIN32)
 #define OMR_OS_WINDOWS
 #endif /* defined(WIN32) */
+#if defined(MACOSX)
+#define OSX
+#endif /* defined(MACOSX) */
 
 #include "j9.h"
 #include "ut_jcl_java.h"
