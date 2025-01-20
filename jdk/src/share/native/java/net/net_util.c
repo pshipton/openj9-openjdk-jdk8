@@ -45,6 +45,7 @@ typedef const struct JVMExtensionInterface_ *JVMExt;
 #define COPY_PROGRESS_INFO_MASK 0
 #if defined(AIX)
 #define AIXPPC
+#define RS6000
 #endif /* defined(AIX) */
 #if defined(MACOSX)
 #define OSX
