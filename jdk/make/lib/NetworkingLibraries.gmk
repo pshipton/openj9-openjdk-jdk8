@@ -41,6 +41,9 @@ endif
 
 LIBNET_CFLAGS := $(foreach dir, $(LIBNET_SRC_DIRS), -I$(dir))
 
+BUILD_LIBNET_aix_close.c_CFLAGS := \
+    -I$(OPENJ9OMR_TOPDIR)/include_core \
+    -I$(OUTPUT_ROOT)/vm/runtime/jcl
 BUILD_LIBNET_bsd_close.c_CFLAGS := \
     -I$(OPENJ9OMR_TOPDIR)/include_core \
     -I$(OUTPUT_ROOT)/vm/runtime/jcl
