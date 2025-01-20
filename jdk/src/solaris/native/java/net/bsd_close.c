@@ -46,7 +46,7 @@
 #include <errno.h>
 #include <sys/poll.h>
 #include <arpa/inet.h>
-#include <netinet/in.h>
+//#include <netinet/in.h>
 
 #include "ut_jcl_net.h"
 
