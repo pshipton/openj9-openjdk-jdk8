@@ -45,7 +45,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/poll.h>
-include <arpa/inet.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
 
 #include "ut_jcl_net.h"
 
@@ -421,12 +422,10 @@ int NET_Connect(int s, struct sockaddr *addr, int addrlen) {
         char buf[INET_ADDRSTRLEN];
         struct sockaddr_in *sa = (struct sockaddr_in *)addr;
         Trc_NET_Connect4(s, inet_ntop(AF_INET, &sa->sin_addr, buf, sizeof(buf)), ntohs(sa->sin_port), addrlen);
-#ifdef AF_INET6
     } else if (AF_INET6 == addr->sa_family) {
         char buf[INET6_ADDRSTRLEN];
         struct sockaddr_in6 *sa = (struct sockaddr_in6 *)addr;
         Trc_NET_Connect6(s, inet_ntop(AF_INET6, &sa->sin6_addr, buf, sizeof(buf)), ntohs(sa->sin6_port), ntohl(sa->sin6_scope_id), addrlen);
-#endif /* AF_INET6 */
     }
     BLOCKING_IO_RETURN_INT( s, connect(s, addr, addrlen) );
 }
